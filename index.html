@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Капиталсыз, тек дағды мен уақытпен $1M таза активке жетудің бес кезеңді жеке қаржылық жол картасы — есептер, кесте және апта сайынғы жүйемен.">
+<meta name="color-scheme" content="light dark">
+<title>Нөлден Миллионға</title>
+<style>
+  :root{
+    --paper:#F1F3EC;
+    --surface:#FFFFFF;
+    --surface-2:#E9EDE3;
+    --ink:#1C2A20;
+    --ink-soft:#51604F;
+    --ink-faint:#7C8A79;
+    --line:#D9DECF;
+    --accent:#2E6F4E;
+    --accent-ink:#FFFFFF;
+    --accent-soft:#E3EEE0;
+    --accent-2:#A5711F;
+    --accent-2-soft:#F3E7D2;
+    --risk:#9C4A3A;
+    --risk-soft:#F3E1DB;
+    --shadow: 0 1px 2px rgba(28,42,32,0.06), 0 6px 20px -8px rgba(28,42,32,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#12170F;
+      --surface:#1A2116;
+      --surface-2:#212A1C;
+      --ink:#E9EDE2;
+      --ink-soft:#AEBBA6;
+      --ink-faint:#7E8B77;
+      --line:#2C3527;
+      --accent:#74C398;
+      --accent-ink:#0E1A12;
+      --accent-soft:#1E2C22;
+      --accent-2:#E2B368;
+      --accent-2-soft:#2E2718;
+      --risk:#E29684;
+      --risk-soft:#2E1E1A;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12170F;
+    --surface:#1A2116;
+    --surface-2:#212A1C;
+    --ink:#E9EDE2;
+    --ink-soft:#AEBBA6;
+    --ink-faint:#7E8B77;
+    --line:#2C3527;
+    --accent:#74C398;
+    --accent-ink:#0E1A12;
+    --accent-soft:#1E2C22;
+    --accent-2:#E2B368;
+    --accent-2-soft:#2E2718;
+    --risk:#E29684;
+    --risk-soft:#2E1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Golos Text','Segoe UI',system-ui,-apple-system,sans-serif;
+    padding-inline:20px;
+    padding-block:40px 64px;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'PT Serif',Georgia,'Times New Roman',serif;
+    font-weight:700;
+    text-wrap:balance;
+    margin:0;
+  }
+  .mono{ font-family:'JetBrains Mono','SFMono-Regular',Consolas,monospace; font-variant-numeric:tabular-nums; }
+
+  .page{ max-width:760px; margin-inline:auto; }
+
+  /* ---------- Header ---------- */
+  header.hero{
+    padding-block:8px 28px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:28px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    display:inline-block;
+  }
+  h1.title{
+    font-size:clamp(2rem, 5.5vw, 2.9rem);
+    line-height:1.08;
+    margin-bottom:14px;
+    color:var(--ink);
+  }
+  .lede{
+    font-size:1.04rem;
+    line-height:1.6;
+    color:var(--ink-soft);
+    max-width:62ch;
+  }
+
+  .assumptions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:22px;
+  }
+  .assumptions div{
+    background:var(--surface);
+    padding:14px 16px;
+  }
+  .assumptions .label{
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--ink-faint);
+    margin-bottom:6px;
+  }
+  .assumptions .value{
+    font-family:'JetBrains Mono',monospace;
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--ink);
+  }
+  @media (max-width:560px){
+    .assumptions{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- Sections ---------- */
+  section{ margin-block:44px; }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:6px;
+  }
+  .section-num{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--accent-2);
+    font-size:0.85rem;
+    font-weight:700;
+  }
+  h2.section-title{
+    font-size:1.5rem;
+    color:var(--ink);
+  }
+  .section-sub{
+    color:var(--ink-soft);
+    font-size:0.97rem;
+    line-height:1.6;
+    max-width:64ch;
+    margin-top:8px;
+  }
+
+  /* ---------- Phase timeline ---------- */
+  .phases{
+    position:relative;
+    margin-top:26px;
+    padding-left:34px;
+    border-left:2px solid var(--line);
+  }
+  .phase{
+    position:relative;
+    padding-bottom:28px;
+  }
+  .phase:last-child{ padding-bottom:0; }
+  .phase::before{
+    content:attr(data-n);
+    position:absolute;
+    left:-46px;
+    top:0;
+    width:28px;height:28px;
+    border-radius:50%;
+    background:var(--accent);
+    color:var(--accent-ink);
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:0.8rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .phase-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px 20px;
+    box-shadow:var(--shadow);
+  }
+  .phase-top{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:8px 16px;
+    margin-bottom:10px;
+  }
+  .phase-title{
+    font-family:'PT Serif',serif;
+    font-weight:700;
+    font-size:1.16rem;
+  }
+  .phase-time{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+    color:var(--accent);
+    background:var(--accent-soft);
+    padding:3px 9px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .phase-goal{
+    color:var(--ink-soft);
+    font-size:0.96rem;
+    line-height:1.55;
+    margin-bottom:12px;
+  }
+  .phase-actions{
+    list-style:none;
+    padding:0;margin:0 0 12px 0;
+    display:grid;
+    gap:7px;
+  }
+  .phase-actions li{
+    font-size:0.92rem;
+    line-height:1.5;
+    color:var(--ink);
+    padding-left:18px;
+    position:relative;
+  }
+  .phase-actions li::before{
+    content:"—";
+    position:absolute;
+    left:0;
+    color:var(--accent-2);
+  }
+  .phase-target{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.82rem;
+    color:var(--ink-faint);
+    border-top:1px dashed var(--line);
+    padding-top:10px;
+  }
+  .phase-target b{ color:var(--ink); font-weight:700; }
+
+  /* ---------- Chart ---------- */
+  .chart-wrap{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px 14px 10px;
+    box-shadow:var(--shadow);
+    margin-top:22px;
+  }
+  .chart-wrap svg{ width:100%; height:auto; display:block; }
+  .chart-legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+    padding:12px 8px 4px;
+    font-size:0.84rem;
+  }
+  .chart-legend span{ display:inline-flex; align-items:center; gap:7px; color:var(--ink-soft); }
+  .chart-legend i{ width:14px;height:3px;border-radius:2px;display:inline-block; }
+
+  /* ---------- Table ---------- */
+  .table-scroll{ overflow-x:auto; margin-top:20px; border:1px solid var(--line); border-radius:12px; }
+  table{ width:100%; border-collapse:collapse; min-width:520px; background:var(--surface); }
+  th,td{
+    text-align:right;
+    padding:10px 14px;
+    font-size:0.88rem;
+    border-bottom:1px solid var(--line);
+    white-space:nowrap;
+  }
+  th:first-child, td:first-child{ text-align:left; }
+  thead th{
+    font-family:'Golos Text',sans-serif;
+    font-weight:600;
+    font-size:0.74rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--ink-faint);
+    background:var(--surface-2);
+  }
+  td{ font-family:'JetBrains Mono',monospace; color:var(--ink); }
+  td:first-child{ font-family:'Golos Text',sans-serif; color:var(--ink-soft); }
+  tr.milestone td{ color:var(--accent); font-weight:700; }
+  tr:last-child td{ border-bottom:none; }
+
+  /* ---------- Checklist ---------- */
+  .checklist{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:20px;
+  }
+  @media (max-width:560px){ .checklist{ grid-template-columns:1fr; } }
+  .check-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .check-card h3{
+    font-size:0.98rem;
+    font-family:'Golos Text',sans-serif;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+  .check-card ul{ margin:0; padding:0; list-style:none; display:grid; gap:8px; }
+  .check-card li{
+    font-size:0.9rem;
+    line-height:1.5;
+    color:var(--ink-soft);
+    padding-left:24px;
+    position:relative;
+  }
+  .check-card li::before{
+    content:"";
+    position:absolute;
+    left:0; top:3px;
+    width:14px;height:14px;
+    border-radius:4px;
+    border:1.5px solid var(--accent);
+  }
+
+  /* ---------- Risk callout ---------- */
+  .callout{
+    border:1px solid var(--risk);
+    background:var(--risk-soft);
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:22px;
+  }
+  .callout h3{
+    font-family:'Golos Text',sans-serif;
+    font-weight:600;
+    font-size:0.98rem;
+    color:var(--risk);
+    margin-bottom:8px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .callout p{ margin:0 0 8px 0; font-size:0.92rem; line-height:1.6; color:var(--ink); }
+  .callout p:last-child{ margin-bottom:0; }
+
+  footer{
+    margin-top:52px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    font-size:0.78rem;
+    color:var(--ink-faint);
+    line-height:1.6;
+  }
+  footer a{ color:var(--ink-faint); }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="eyebrow">Жеке қаржылық жол картасы</div>
+    <h1 class="title">Нөлден Миллионға</h1>
+    <p class="lede">Бастапқы капиталы жоқ, бірақ уақыты мен дағдысы бар адамға арналған, 1&nbsp;000&nbsp;000 доллар таза активке жетудің бес кезеңді жоспары. Есептер мен мерзімдер — иллюстрациялық болжам, кепілдік емес.</p>
+
+    <div class="assumptions">
+      <div>
+        <div class="label">Мақсат</div>
+        <div class="value">$1 000 000</div>
+      </div>
+      <div>
+        <div class="label">Бастапқы капитал</div>
+        <div class="value">0 ₸</div>
+      </div>
+      <div>
+        <div class="label">Бағам (2026 қыркүйек)</div>
+        <div class="value">≈460 ₸/$</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="phases">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Бес кезеңді жол</h2>
+    </div>
+    <p class="section-sub">Ретімен өтетін бес кезең — әрқайсысы алдыңғысының үстіне құрылады. Кезеңді асыра өтуге тырыспаңыз: дағды табысқа, табыс жинаққа, жинақ активке айналмай тұрып, келесі сатыға көшу тәуекелді арттырады.</p>
+
+    <div class="phases">
+      <div class="phase" data-n="1">
+        <div class="phase-card">
+          <div class="phase-top">
+            <span class="phase-title">Дағдыны ақшаға айналдыру</span>
+            <span class="phase-time">0–6 ай</span>
+          </div>
+          <p class="phase-goal">Капиталсыз жалғыз активіңіз — уақыт пен дағды. Осы кезеңнің міндеті: соны нарықта сатылатын қызметке айналдыру.</p>
+          <ul class="phase-actions">
+            <li>Ең күшті дағдыңызды анықтап, соған сұраныс бар нарықты тауып, алғашқы 1–3 төлемді клиентті тапу</li>
+            <li>Портфолио немесе жеке "дүкен" жасау (LinkedIn, Instagram, Kaspi, фриланс алаңы — саласына қарай)</li>
+            <li>Күнделікті шығынды бақылап, әр кірген теңгенің қайда кеткенін білу дағдысын қалыптастыру</li>
+          </ul>
+          <div class="phase-target">Мақсатты нәтиже: <b>тұрақты қосымша кіріс пайда болады</b></div>
+        </div>
+      </div>
+
+      <div class="phase" data-n="2">
+        <div class="phase-card">
+          <div class="phase-top">
+            <span class="phase-title">Табысты тұрақтандыру</span>
+            <span class="phase-time">6 ай – 2 жыл</span>
+          </div>
+          <p class="phase-goal">Кездейсоқ тапсырыстан тұрақты ай сайынғы кіріске көшу. Осы кезеңде жинақ пайызы шешуші рөл ойнайды.</p>
+          <ul class="phase-actions">
+            <li>Кірістің кемінде 50–70%-ын жинақ пен инвестицияға бөлу (шығынды емес, алдымен жинақты жоспарлау)</li>
+            <li>3–6 айлық "қауіпсіздік жастығын" (депозит немесе өтімді қор) жинау</li>
+            <li>Бағаны нарыққа сәйкес көтеріп, тұрақты клиенттермен келісім-шарт орнату</li>
+          </ul>
+          <div class="phase-target">Мақсатты нәтиже: жинақ балансы <b>≈$5 000–$20 000</b> аралығында</div>
+        </div>
+      </div>
+
+      <div class="phase" data-n="3">
+        <div class="phase-card">
+          <div class="phase-top">
+            <span class="phase-title">Инвестиция тәртібін орнату</span>
+            <span class="phase-time">2–5 жыл</span>
+          </div>
+          <p class="phase-goal">Енді ақша сіз үшін де жұмыс істеуі керек. Тәртіп — соманың өзінен маңызды.</p>
+          <ul class="phase-actions">
+            <li>Брокерлік шот ашып, әр ай сайын белгілі соманы индекстік қорларға немесе облигацияларға автоматты аудару</li>
+            <li>Жеке қарызды (несие картасы, тұтыну несиесі) толық жабу — пайызы инвестиция табысынан асып түседі</li>
+            <li>Салық пен зейнетақы жарналарын заңды түрде оңтайландыру (маман кеңесімен)</li>
+          </ul>
+          <div class="phase-target">Мақсатты нәтиже: таза актив <b>≈$40 000–$150 000</b></div>
+        </div>
+      </div>
+
+      <div class="phase" data-n="4">
+        <div class="phase-card">
+          <div class="phase-top">
+            <span class="phase-title">Активтерді көбейту</span>
+            <span class="phase-time">5–10 жыл</span>
+          </div>
+          <p class="phase-goal">Уақытыңызды сатудан бас тартып, сізсіз де жұмыс істейтін нәрсе құру: команда, өнім, жылжымайтын мүлік немесе үлес.</p>
+          <ul class="phase-actions">
+            <li>Қызметті өнімге немесе кішігірім командаға айналдыру (сіз болмасаңда табыс тоқтамауы керек)</li>
+            <li>Екінші табыс көзін ашу — жалдау мүлкі, серіктестік, роялти немесе онлайн-курс</li>
+            <li>Инвестиция портфелін әртараптандыру (акция, облигация, валюта, мүлік)</li>
+          </ul>
+          <div class="phase-target">Мақсатты нәтиже: таза актив <b>≈$300 000–$900 000</b></div>
+        </div>
+      </div>
+
+      <div class="phase" data-n="5">
+        <div class="phase-card">
+          <div class="phase-top">
+            <span class="phase-title">Масштабтау және қорғау</span>
+            <span class="phase-time">10+ жыл</span>
+          </div>
+          <p class="phase-goal">Мақсатқа жақындаған сайын өсуден гөрі сақтау маңызды бола бастайды.</p>
+          <ul class="phase-actions">
+            <li>Тәуекелді азайту — портфельдегі бір активтің үлесін шектеу, сақтандыру, мұрагерлік жоспар</li>
+            <li>Табыс көздерін 3–5-ке дейін жеткізу, әрқайсысы жалпы кірістің 40%-нан аспауы керек</li>
+            <li>Жыл сайын нәтижені қайта қарап, жоспарды нақты сандарға сәйкестендіру</li>
+          </ul>
+          <div class="phase-target">Мақсатты нәтиже: таза актив <b>$1 000 000+</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projection">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Екі сценарий бойынша болжам</h2>
+    </div>
+    <p class="section-sub">Бірдей нөлден бастап, екі түрлі жол қалай ажырайтынын көрсетеді. Тік ось — логарифмдік шкала, себебі сома 25 жылда 1000 есе өседі. Бұл — модель, нақты нәтиже емес.</p>
+
+    <div class="chart-wrap">
+      <svg viewBox="0 0 640 360" role="img" aria-label="Таза активтің 25 жылдағы өсу болжамы, екі сценарий">
+        <!-- gridlines -->
+        <g stroke="var(--line)" stroke-width="1">
+          <line x1="56" y1="263.4" x2="620" y2="263.4"></line>
+          <line x1="56" y1="194.7" x2="620" y2="194.7"></line>
+          <line x1="56" y1="126.0" x2="620" y2="126.0"></line>
+          <line x1="56" y1="57.4"  x2="620" y2="57.4" stroke-dasharray="3 3" stroke="var(--accent-2)"></line>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="10.5" fill="var(--ink-faint)">
+          <text x="8" y="267">$1k</text>
+          <text x="8" y="198">$10k</text>
+          <text x="8" y="130">$100k</text>
+          <text x="8" y="53" fill="var(--accent-2)">$1M</text>
+        </g>
+        <!-- x axis -->
+        <g stroke="var(--line)" stroke-width="1">
+          <line x1="56" y1="320" x2="620" y2="320"></line>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="10.5" fill="var(--ink-faint)">
+          <text x="52" y="336" text-anchor="middle">0</text>
+          <text x="164.8" y="336" text-anchor="middle">5ж</text>
+          <text x="277.6" y="336" text-anchor="middle">10ж</text>
+          <text x="390.4" y="336" text-anchor="middle">15ж</text>
+          <text x="503.2" y="336" text-anchor="middle">20ж</text>
+          <text x="612" y="336" text-anchor="middle">25ж</text>
+        </g>
+
+        <!-- Scenario B: business -->
+        <polyline points="56.0,320.0 78.6,263.4 101.1,222.1 123.7,182.6 146.2,153.4 168.8,129.2 191.4,112.0 213.9,97.5 236.5,86.2 259.0,76.9 281.6,68.9 304.2,64.8 326.7,61.2 349.3,57.4 371.8,54.5 394.4,51.7 417.0,48.8 439.5,46.0 462.1,43.2 484.6,40.3 507.2,37.5 529.8,34.6 552.3,31.8 574.9,28.9 597.4,26.1 620.0,23.3"
+          fill="none" stroke="var(--accent-2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+
+        <!-- Scenario A2: saver-investor -->
+        <polyline points="56.0,304.8 78.6,208.8 101.1,185.4 123.7,170.6 146.2,159.3 168.8,149.9 191.4,141.8 213.9,134.5 236.5,127.8 259.0,121.6 281.6,115.7 304.2,110.2 326.7,104.9 349.3,99.8 371.8,94.9 394.4,90.1 417.0,85.5 439.5,80.9 462.1,76.5 484.6,72.2 507.2,68.0 529.8,63.8 552.3,59.7 574.9,55.7 597.4,51.7 620.0,47.7"
+          fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+
+        <!-- markers where each crosses $1M -->
+        <circle cx="349.3" cy="57.4" r="4" fill="var(--accent-2)"></circle>
+        <circle cx="574.9" cy="55.7" r="4" fill="var(--accent)"></circle>
+
+        <g font-family="JetBrains Mono, monospace" font-size="10.5">
+          <text x="349.3" y="46" text-anchor="middle" fill="var(--accent-2)">13ж: $1M</text>
+          <text x="574.9" y="46" text-anchor="middle" fill="var(--accent)">23ж: $1M</text>
+          <text x="597" y="20" text-anchor="end" fill="var(--accent-2)">$3.1M</text>
+          <text x="597" y="42" text-anchor="end" fill="var(--accent)">$1.38M</text>
+        </g>
+      </svg>
+      <div class="chart-legend">
+        <span><i style="background:var(--accent)"></i>Жинақ + инвестиция (дағды өсімімен)</span>
+        <span><i style="background:var(--accent-2)"></i>Бизнес / меншікті іс (жоғары тәуекел)</span>
+      </div>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Жыл</th><th>Жинақ-инвестиция</th><th>Бизнес-жол</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1 жыл</td><td>$6 244</td><td>$1 000</td></tr>
+          <tr><td>3 жыл</td><td>$22 459</td><td>$15 000</td></tr>
+          <tr><td>5 жыл</td><td>$44 883</td><td>$90 000</td></tr>
+          <tr><td>7 жыл</td><td>$75 347</td><td>$260 000</td></tr>
+          <tr><td>10 жыл</td><td>$141 343</td><td>$680 000</td></tr>
+          <tr class="milestone"><td>13 жыл</td><td>$241 296</td><td>$1 000 000</td></tr>
+          <tr><td>15 жыл</td><td>$333 889</td><td>$1 210 000</td></tr>
+          <tr><td>18 жыл</td><td>$526 213</td><td>$1 610 510</td></tr>
+          <tr><td>20 жыл</td><td>$701 218</td><td>$1 948 717</td></tr>
+          <tr class="milestone"><td>23 жыл</td><td>$1 059 190</td><td>$2 593 742</td></tr>
+          <tr><td>25 жыл</td><td>$1 380 861</td><td>$3 138 428</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="system">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Апта сайынғы жүйе</h2>
+    </div>
+    <p class="section-sub">Жоспар жылдан-жылға емес, апта сайынғы әдеттен жасалады. Осы төрт тексеру — қай кезеңде тұрсаңыз да қайталанады.</p>
+
+    <div class="checklist">
+      <div class="check-card">
+        <h3>Табыс</h3>
+        <ul>
+          <li>Осы аптада қанша жаңа клиентке немесе мүмкіндікке хабарластыңыз?</li>
+          <li>Қызметіңіздің бағасын соңғы рет қашан көтердіңіз?</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <h3>Жинақ</h3>
+        <ul>
+          <li>Жоспарланған пайыз автоматты түрде бөлек шотқа аударылды ма?</li>
+          <li>Жоспардан тыс шығын болды ма, себебі неде?</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <h3>Дағды</h3>
+        <ul>
+          <li>Осы аптада негізгі дағдыға немесе жаңа дағдыға қанша сағат бөлдіңіз?</li>
+          <li>Нарықтан алған кері байланысты жазып алдыңыз ба?</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <h3>Инвестиция</h3>
+        <ul>
+          <li>Портфель құрылымы жоспарға сәйкес пе, әлде түзету керек пе?</li>
+          <li>Соңғы аптада эмоцияға сүйеніп шешім қабылдамадыңыз ба?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="risks">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Ескертулер</h2>
+    </div>
+
+    <div class="callout">
+      <h3>Бұл жоспар кепілдік бермейді</h3>
+      <p><b>Бизнес-жол өте құбылмалы:</b> кестедегі сан — сәтті болған жағдайдағы болжам. Іс жүзінде көптеген шағын бизнес алғашқы бірнеше жылда жабылады немесе шығынмен жұмыс істейді. Бұл жолды таңдасаңыз, сәтсіздікке дайын резерв пен "Б жоспары" болуы керек.</p>
+      <p><b>Инвестиция нарығы өседі де, құлайды да:</b> кестедегі орташа өсім (жылына 8–9%) ұзақ мерзімді тарихи орташа көрсеткіш, бірақ жеке жылдары нарық 20–40%-ға құлауы мүмкін. Ақшаны 5 жылдан аз мерзімге қажет болса, акцияға салмаңыз.</p>
+      <p><b>Бұл қаржылық немесе заңды кеңес емес.</b> Салық, зейнетақы жарнасы және нақты инвестиция түрі бойынша шешім қабылдамас бұрын лицензиясы бар қаржы кеңесшісімен сөйлескен жөн.</p>
+    </div>
+  </section>
+
+  <footer>
+    Бағам көрсеткіші — 2026 жылдың қыркүйек айындағы биржа деректері бойынша шамамен алынған, нарыққа байланысты күнделікті өзгереді.<br>
+    Дереккөздер: <a href="https://arasha.kz/22125-dollar-bagamy-turaqtady" target="_blank" rel="noopener">Arasha.kz</a>, <a href="https://turkystan.kz/article/288606-qazaqstanda-dollar-bagasy-kurt-tomendedi" target="_blank" rel="noopener">Turkystan.kz</a>
+  </footer>
+
+</div>
+</body>
+</html>
